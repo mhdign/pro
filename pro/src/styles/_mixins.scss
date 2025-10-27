@@ -1,0 +1,379 @@
+// src/styles/_mixins.scss
+// Modern SCSS Mixins
+
+// Media queries
+@mixin media-breakpoint-up($name) {
+  $min: map-get($breakpoints, $name);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-down($name) {
+  $max: map-get($breakpoints, $name) - 0.02;
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-between($lower, $upper) {
+  $min: map-get($breakpoints, $lower);
+  $max: map-get($breakpoints, $upper) - 0.02;
+  
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include media-breakpoint-up($lower) {
+      @content;
+    }
+  } @else if $min == null {
+    @include media-breakpoint-down($upper) {
+      @content;
+    }
+  }
+}
+
+// Typography mixins
+@mixin font-size($size) {
+  font-size: map-get($font-sizes, $size);
+}
+
+@mixin font-weight($weight) {
+  font-weight: map-get($font-weights, $weight);
+}
+
+@mixin line-height($height) {
+  line-height: map-get($line-heights, $height);
+}
+
+// Spacing mixins
+@mixin margin($sides...) {
+  @each $side in $sides {
+    margin-#{$side}: map-get($spacers, $side);
+  }
+}
+
+@mixin padding($sides...) {
+  @each $side in $sides {
+    padding-#{$side}: map-get($spacers, $side);
+  }
+}
+
+// Border radius mixins
+@mixin border-radius($radius) {
+  border-radius: map-get($border-radius, $radius);
+}
+
+@mixin border-radius-top($radius) {
+  border-top-left-radius: map-get($border-radius, $radius);
+  border-top-right-radius: map-get($border-radius, $radius);
+}
+
+@mixin border-radius-bottom($radius) {
+  border-bottom-left-radius: map-get($border-radius, $radius);
+  border-bottom-right-radius: map-get($border-radius, $radius);
+}
+
+@mixin border-radius-left($radius) {
+  border-top-left-radius: map-get($border-radius, $radius);
+  border-bottom-left-radius: map-get($border-radius, $radius);
+}
+
+@mixin border-radius-right($radius) {
+  border-top-right-radius: map-get($border-radius, $radius);
+  border-bottom-right-radius: map-get($border-radius, $radius);
+}
+
+// Box shadow mixins
+@mixin box-shadow($shadow) {
+  box-shadow: map-get($box-shadows, $shadow);
+}
+
+@mixin box-shadow-custom($shadow) {
+  box-shadow: $shadow;
+}
+
+// Transition mixins
+@mixin transition($property: all, $duration: normal, $timing: ease) {
+  transition: $property map-get($durations, $duration) map-get($easings, $timing);
+}
+
+@mixin transition-multiple($transitions...) {
+  transition: $transitions;
+}
+
+// Transform mixins
+@mixin transform($transforms...) {
+  transform: $transforms;
+}
+
+@mixin transform-origin($origin) {
+  transform-origin: $origin;
+}
+
+// Flexbox mixins
+@mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin flex-center {
+  @include flex(row, nowrap, center, center);
+}
+
+@mixin flex-between {
+  @include flex(row, nowrap, space-between, center);
+}
+
+@mixin flex-column {
+  @include flex(column);
+}
+
+@mixin flex-column-center {
+  @include flex(column, nowrap, center, center);
+}
+
+// Grid mixins
+@mixin grid($columns: 12, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+@mixin grid-auto-fit($min-width: 250px, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+@mixin grid-auto-fill($min-width: 250px, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+// Position mixins
+@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin fixed($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  position: fixed;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin sticky($top: 0, $z-index: auto) {
+  position: sticky;
+  top: $top;
+  z-index: $z-index;
+}
+
+// Size mixins
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size);
+}
+
+@mixin circle($size) {
+  @include size($size);
+  @include border-radius(full);
+}
+
+// Text mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@mixin text-center {
+  text-align: center;
+}
+
+@mixin text-left {
+  text-align: left;
+}
+
+@mixin text-right {
+  text-align: right;
+}
+
+// Visibility mixins
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@mixin sr-only {
+  @include visually-hidden;
+}
+
+// Focus mixins
+@mixin focus-ring($color: var(--primary-500), $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+}
+
+@mixin focus-visible {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  @include border-radius(md);
+  @include transition(all);
+  cursor: pointer;
+  user-select: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($background, $color: white, $border: $background) {
+  background-color: $background;
+  color: $color;
+  border-color: $border;
+  
+  &:hover:not(:disabled) {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken($background, 15%);
+    border-color: darken($border, 15%);
+  }
+}
+
+// Form mixins
+@mixin form-input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--secondary-900);
+  background-color: white;
+  border: 1px solid var(--secondary-300);
+  @include border-radius(md);
+  @include transition(border-color, box-shadow);
+  
+  &:focus {
+    border-color: var(--primary-500);
+    @include box-shadow-custom(0 0 0 3px rgba(14, 165, 233, 0.1));
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: var(--secondary-400);
+  }
+  
+  &:disabled {
+    background-color: var(--secondary-100);
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Card mixins
+@mixin card {
+  background-color: white;
+  border: 1px solid var(--secondary-200);
+  @include border-radius(lg);
+  @include box-shadow(sm);
+  @include transition(box-shadow);
+  
+  &:hover {
+    @include box-shadow(md);
+  }
+}
+
+// Animation mixins
+@mixin fade-in($duration: normal) {
+  opacity: 0;
+  animation: fadeIn map-get($durations, $duration) ease-in-out forwards;
+}
+
+@mixin slide-up($duration: normal) {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp map-get($durations, $duration) ease-out forwards;
+}
+
+@mixin scale-in($duration: normal) {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: scaleIn map-get($durations, $duration) ease-out forwards;
+}
+
+// Keyframes
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

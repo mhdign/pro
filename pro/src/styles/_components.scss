@@ -1,0 +1,450 @@
+// src/styles/_components.scss
+// Modern Component Styles
+
+// Button Components
+.btn {
+  @include button-base;
+  @include focus-visible;
+  
+  &--primary {
+    @include button-variant(var(--primary-500));
+  }
+  
+  &--secondary {
+    @include button-variant(white, var(--secondary-700), var(--secondary-300));
+    
+    &:hover:not(:disabled) {
+      background-color: var(--secondary-50);
+    }
+  }
+  
+  &--success {
+    @include button-variant(var(--success-500));
+  }
+  
+  &--warning {
+    @include button-variant(var(--warning-500));
+  }
+  
+  &--error {
+    @include button-variant(var(--error-500));
+  }
+  
+  &--outline {
+    background-color: transparent;
+    color: var(--primary-600);
+    border-color: var(--primary-600);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--primary-50);
+    }
+  }
+  
+  &--ghost {
+    background-color: transparent;
+    color: var(--secondary-600);
+    border-color: transparent;
+    
+    &:hover:not(:disabled) {
+      background-color: var(--secondary-100);
+    }
+  }
+  
+  &--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  &--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+  
+  &--loading {
+    position: relative;
+    color: transparent;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1rem;
+      height: 1rem;
+      margin: -0.5rem 0 0 -0.5rem;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Form Components
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--secondary-700);
+}
+
+.form-input {
+  @include form-input;
+  
+  &--error {
+    border-color: var(--error-500);
+    
+    &:focus {
+      border-color: var(--error-500);
+      @include box-shadow-custom(0 0 0 3px rgba(239, 68, 68, 0.1));
+    }
+  }
+  
+  &--success {
+    border-color: var(--success-500);
+    
+    &:focus {
+      border-color: var(--success-500);
+      @include box-shadow-custom(0 0 0 3px rgba(34, 197, 94, 0.1));
+    }
+  }
+}
+
+.form-error {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--error-600);
+}
+
+.form-help {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--secondary-500);
+}
+
+// Card Components
+.card {
+  @include card;
+  overflow: hidden;
+  
+  &__header {
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: 1px solid var(--secondary-200);
+    margin-bottom: 1.5rem;
+  }
+  
+  &__body {
+    padding: 1.5rem;
+  }
+  
+  &__footer {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--secondary-200);
+    margin-top: 1.5rem;
+  }
+  
+  &__title {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--secondary-900);
+  }
+  
+  &__subtitle {
+    font-size: 0.875rem;
+    color: var(--secondary-500);
+  }
+}
+
+// Modal Components
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: map-get($z-indexes, modal);
+  @include flex-center;
+  padding: 1rem;
+  
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  &__content {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    background-color: white;
+    @include border-radius(lg);
+    @include box-shadow(xl);
+    overflow: hidden;
+  }
+  
+  &__header {
+    @include flex-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--secondary-200);
+  }
+  
+  &__body {
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  
+  &__footer {
+    @include flex-between;
+    padding: 1.5rem;
+    border-top: 1px solid var(--secondary-200);
+  }
+  
+  &__close {
+    @include square(2rem);
+    @include flex-center;
+    @include border-radius(md);
+    color: var(--secondary-500);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    @include transition(all);
+    
+    &:hover {
+      background-color: var(--secondary-100);
+      color: var(--secondary-700);
+    }
+  }
+}
+
+// Alert Components
+.alert {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  @include border-radius(md);
+  @include flex;
+  gap: 0.75rem;
+  
+  &--info {
+    background-color: var(--primary-50);
+    border-color: var(--primary-200);
+    color: var(--primary-800);
+  }
+  
+  &--success {
+    background-color: var(--success-50);
+    border-color: var(--success-200);
+    color: var(--success-800);
+  }
+  
+  &--warning {
+    background-color: var(--warning-50);
+    border-color: var(--warning-200);
+    color: var(--warning-800);
+  }
+  
+  &--error {
+    background-color: var(--error-50);
+    border-color: var(--error-200);
+    color: var(--error-800);
+  }
+  
+  &__icon {
+    @include square(1.25rem);
+    flex-shrink: 0;
+  }
+  
+  &__content {
+    flex: 1;
+  }
+  
+  &__title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  &__message {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  &__close {
+    @include square(1.25rem);
+    @include flex-center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    @include transition(opacity);
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Badge Components
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  @include border-radius(full);
+  
+  &--primary {
+    background-color: var(--primary-100);
+    color: var(--primary-800);
+  }
+  
+  &--secondary {
+    background-color: var(--secondary-100);
+    color: var(--secondary-800);
+  }
+  
+  &--success {
+    background-color: var(--success-100);
+    color: var(--success-800);
+  }
+  
+  &--warning {
+    background-color: var(--warning-100);
+    color: var(--warning-800);
+  }
+  
+  &--error {
+    background-color: var(--error-100);
+    color: var(--error-800);
+  }
+  
+  &--dot {
+    @include square(0.5rem);
+    padding: 0;
+  }
+}
+
+// Loading Components
+.loading {
+  @include flex-center;
+  gap: 0.5rem;
+  
+  &__spinner {
+    @include square(1rem);
+    border: 2px solid var(--secondary-200);
+    border-top-color: var(--primary-500);
+    @include border-radius(full);
+    animation: spin 1s linear infinite;
+  }
+  
+  &__text {
+    font-size: 0.875rem;
+    color: var(--secondary-600);
+  }
+}
+
+// Progress Components
+.progress {
+  width: 100%;
+  height: 0.5rem;
+  background-color: var(--secondary-200);
+  @include border-radius(full);
+  overflow: hidden;
+  
+  &__bar {
+    height: 100%;
+    background-color: var(--primary-500);
+    @include transition(width);
+    
+    &--success {
+      background-color: var(--success-500);
+    }
+    
+    &--warning {
+      background-color: var(--warning-500);
+    }
+    
+    &--error {
+      background-color: var(--error-500);
+    }
+  }
+}
+
+// Tooltip Components
+.tooltip {
+  position: relative;
+  display: inline-block;
+  
+  &__content {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    color: white;
+    background-color: var(--secondary-900);
+    @include border-radius(md);
+    @include box-shadow(md);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    @include transition(all);
+    z-index: map-get($z-indexes, tooltip);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: var(--secondary-900);
+    }
+  }
+  
+  &:hover &__content {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+  .card {
+    background-color: var(--secondary-800);
+    border-color: var(--secondary-700);
+  }
+  
+  .modal__content {
+    background-color: var(--secondary-800);
+  }
+  
+  .form-input {
+    background-color: var(--secondary-800);
+    border-color: var(--secondary-600);
+    color: var(--secondary-100);
+    
+    &::placeholder {
+      color: var(--secondary-400);
+    }
+  }
+}
